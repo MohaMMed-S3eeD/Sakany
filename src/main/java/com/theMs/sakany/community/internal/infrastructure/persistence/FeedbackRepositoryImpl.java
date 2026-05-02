@@ -52,7 +52,9 @@ public class FeedbackRepositoryImpl implements FeedbackRepository {
 
     @Override
     public List<Feedback> findPublicFeedback() {
-        return jpaRepository.findByIsPublicTrueAndStatusOrderByCreatedAtDesc("APPROVED").stream()
+        return jpaRepository.findByIsPublicTrueAndStatusInOrderByCreatedAtDesc(
+                List.of("APPROVED", "ADDRESSED")
+        ).stream()
                 .map(mapper::toDomain)
                 .collect(Collectors.toList());
     }
